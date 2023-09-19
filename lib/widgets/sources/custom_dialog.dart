@@ -6,13 +6,13 @@ class DialogAction {
   final VoidCallback? onTap;
   final String title;
   final Color textColor;
-  final Color backgroundColor;
+  final Color? backgroundColor;
 
   DialogAction({
     this.onTap,
     required this.title,
     this.textColor = Colors.white,
-    this.backgroundColor = const Color(0xFF0269E9),
+    this.backgroundColor,
   });
 }
 
@@ -33,6 +33,10 @@ class CustomDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return Dialog(
       insetPadding: EdgeInsets.symmetric(horizontal: 32),
+      shape: RoundedRectangleBorder(
+        borderRadius:
+            BorderRadius.circular(16.0), // Set your desired radius here
+      ),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -84,23 +88,13 @@ class CustomDialog extends StatelessWidget {
   Widget _actionButton(BuildContext context, DialogAction action) {
     return ElevatedButton(
       onPressed: action.onTap,
-      style: Theme.of(context).elevatedButtonTheme.style?.copyWith(
-            padding:
-                MaterialStatePropertyAll(EdgeInsets.symmetric(vertical: 8)),
-            backgroundColor: MaterialStatePropertyAll(action.backgroundColor),
-            fixedSize:
-                MaterialStatePropertyAll(Size(double.maxFinite, double.nan)),
-            shape: MaterialStatePropertyAll(
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-            ),
-          ),
+      style:ElevatedButton.styleFrom(
+        elevation: 1,
+        backgroundColor: action.backgroundColor ?? Colors.blueAccent
+      ),
       child: Text(
         action.title,
-        style: Theme.of(context)
-            .elevatedButtonTheme
-            .style
-            ?.textStyle
-            ?.resolve({})?.copyWith(
+        style: TextStyle(
           fontSize: 15,
           color: action.textColor,
         ),

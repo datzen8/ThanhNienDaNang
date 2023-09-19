@@ -14,7 +14,6 @@ class AppException implements Exception {
     if (underlyingError != null) {
       return underlyingError.toString();
     }
-
     return "Unknown Error";
   }
 }

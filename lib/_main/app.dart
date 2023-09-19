@@ -1,13 +1,23 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:zen8app/core/core.dart';
 import 'package:zen8app/router/router.dart';
 import 'package:zen8app/utils/utils.dart';
 
+class MyHttpOverrides extends HttpOverrides{
+  @override
+  HttpClient createHttpClient(SecurityContext? context){
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+  }
+}
 class Zen8app extends StatefulWidget {
   const Zen8app({Key? key}) : super(key: key);
 
   static Future<void> load(Env env) async {
+    HttpOverrides.global = MyHttpOverrides();
     WidgetsFlutterBinding.ensureInitialized();
     Config.currentEnv = env;
     registerDependencies();
@@ -26,8 +36,13 @@ class _Zen8appState extends State<Zen8app> {
   void initState() {
     super.initState();
     EventBus.shared
-        .get<String>(AppEvent.forceLogout)
+        .get<String>(AppEvent.forceLogout).delay(Duration(milliseconds: 300))
         .listen(_logout)
+        .addTo(_rxBag);
+
+    EventBus.shared
+        .get<String>(AppEvent.showAuthDialog).
+        listen(_logout)
         .addTo(_rxBag);
   }
 
@@ -40,8 +55,10 @@ class _Zen8appState extends State<Zen8app> {
   Future<void> _logout(String reason) async {
     print("----- Force logout reason: $reason");
     await Session.endAuthenticatedSession();
-    await _appRouter.replaceAll([const LoginRoute()]);
+    await _appRouter.replaceAll([const HomeRoute(), const LoginRoute()],updateExistingRoutes: false);
   }
+
+
 
   @override
   Widget build(BuildContext context) {

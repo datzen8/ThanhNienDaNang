@@ -5,6 +5,7 @@ import 'package:zen8app/utils/utils.dart';
 extension StreamDecoding<R extends Response> on Stream<R> {
   Stream<T> decode<T>(T Function(dynamic json) decoding, {String? keyPath}) {
     return map((res) {
+      print(res);
       var data = res.data;
       final paths = keyPath?.split(".") ?? [];
       for (var path in paths) {
@@ -70,7 +71,7 @@ extension DioStream on Dio {
     String path, {
     Map<String, dynamic>? queryParameters,
     Options? options,
-    ProgressCallback? onReceiveProgress,
+    ProgressCallback? onReceiveProgress, required Map data,
   }) {
     return Rx.defer(
       () {

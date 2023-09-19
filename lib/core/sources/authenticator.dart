@@ -1,4 +1,4 @@
-import 'dart:convert';
+   import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:zen8app/utils/utils.dart';
@@ -8,7 +8,7 @@ import 'package:zen8app/core/core.dart';
 class DefaultAuthenticator extends Authenticator<Credential> {
   @override
   void applyCredential(Credential credential, RequestOptions options) {
-    options.headers["Authorization"] = "Bearer ${credential.token}";
+    options.headers["Authorization"] = "JWT ${credential.token}";
   }
 
   @override
@@ -21,14 +21,16 @@ class DefaultAuthenticator extends Authenticator<Credential> {
   bool isRequestAuthenticatedWithCredential(
       RequestOptions options, Credential credential) {
     final requestAuthorizationHeader = options.headers["Authorization"];
-    final currentAuthorizationHeader = "Bearer ${credential.token}";
+    final currentAuthorizationHeader = "JWT ${credential.token}";
     return requestAuthorizationHeader == currentAuthorizationHeader;
   }
 
   @override
   Future<Credential> refreshCredential(Credential oldCredential, Dio client) {
-    return client.post("/auth/refresh/").then((response) {
-      final credential = Credential.fromJson(response.data);
+    return client.post("/account/user/refresh-token/" ,data: {
+      "refresh_token":oldCredential.refreshToken
+    }).then((response) {
+      final credential = Credential(refreshToken:  oldCredential.refreshToken ,token:  response.data["token"]);
       DI
           .resolve<LocalStore>()
           .setValue(LocalStoreKey.credential, jsonEncode(credential));

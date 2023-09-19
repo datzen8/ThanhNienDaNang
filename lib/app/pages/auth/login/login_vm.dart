@@ -12,8 +12,7 @@ class LoginVMInput extends Disposable {
 }
 
 class LoginVMOutput extends Disposable {
-  //output triggers event should be a PublishSubject, but output that's showing on the UI should be a BehaviorSubject
-  final response = PublishSubject<LoginResponse>();
+  final response = BehaviorSubject<LoginResponse>();
 
   @override
   void dispose() {
@@ -33,10 +32,11 @@ class LoginVM extends BaseVM<LoginVMInput, LoginVMOutput> {
         .switchMap((param) => authService
             .login(param.$1, param.$2)
             .trackActivity("loading", activityTracker))
-        .handleErrorBy(errorTracker)
-        .bindTo(output.response)
-        .addTo(subscription);
+        .handleErrorBy(errorTracker).bindTo(output.response).addTo(subscription);
 
     return subscription;
+
+
+
   }
 }

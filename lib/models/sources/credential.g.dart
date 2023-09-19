@@ -7,10 +7,12 @@ part of 'credential.dart';
 // **************************************************************************
 
 Credential _$CredentialFromJson(Map<String, dynamic> json) => Credential(
-      token: json['accessToken'] as String,
+      token: json['token'] as String,
+      refreshToken: json['refresh_token'] as String,
     );
 
 Map<String, dynamic> _$CredentialToJson(Credential instance) =>
     <String, dynamic>{
-      'accessToken': instance.token,
+      'token': instance.token,
+      'refresh_token': instance.refreshToken,
     };
