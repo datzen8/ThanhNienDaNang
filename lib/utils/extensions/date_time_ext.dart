@@ -6,3 +6,12 @@ extension DateTimeExtendable on Extendable<DateTime> {
     return DateFormat(pattern).format(base);
   }
 }
+
+extension DateTimeNullableExtendable on Extendable<DateTime?>{
+  String asString(String pattern){
+    if(base == null){
+      return "";
+    }
+    return DateFormat(pattern).format(base!);
+  }
+}

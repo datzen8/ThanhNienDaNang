@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:zen8app/utils/utils.dart';
 import 'package:zen8app/models/models.dart';
 import 'package:zen8app/core/core.dart';
+import '../../models/sources/user/user.dart';
 import 'authenticator.dart';
 
 class Session {
@@ -17,6 +18,7 @@ class Session {
 
   //Resume session
   static Future<void> initialize() async {
+    
     //config network
     publicClient.options.baseUrl = Config.currentConfig.baseUrl;
     authClient.options.baseUrl = Config.currentConfig.baseUrl;
@@ -29,10 +31,11 @@ class Session {
       transform: (value) => User.fromJson(jsonDecode(value)),
     );
 
-    final credential = await store.getValue(
+    final credential = await store.getValue<Credential>(
       LocalStoreKey.credential,
       transform: (value) => Credential.fromJson(jsonDecode(value)),
     );
+
     if (credential != null) {
       authClient.setAuthCredential(
         credential: credential,
@@ -43,21 +46,22 @@ class Session {
 
   //Start a new session
   static Future<void> startAuthenticatedSession(LoginResponse response) async {
-    var store = DI.resolve<LocalStore>();
+    var store = DI.resolve< LocalStore>();
     await store.setValue(
       LocalStoreKey.user,
       jsonEncode(response.user),
     );
     _currentUser = response.user;
 
+
     await store.setValue(
       LocalStoreKey.credential,
-      jsonEncode(response.credential),
+      jsonEncode(Credential(token: response.token,refreshToken: response.refreshToken)) ,
     );
     authClient.setAuthCredential(
-      credential: response.credential,
+      credential: Credential(token: response.token ,refreshToken: response.refreshToken),
       authenticator: DefaultAuthenticator(),
-    );
+    );     
   }
 
   //End a session

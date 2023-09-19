@@ -36,7 +36,7 @@ class PageLoader<Param, Page extends PageType> extends Disposable {
     return _cache.take(1).mapTo(false).startWith(true);
   }
 
-  PageLoader(Stream<Page> Function(Param param, List<Page> pages) loadingFunc) {
+   PageLoader(Stream<Page> Function(Param param, List<Page> pages) loadingFunc) {
     var reloadTask = _reload.map((element) {
       var (completer, param) = element;
       return (

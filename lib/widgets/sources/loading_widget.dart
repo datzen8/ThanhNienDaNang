@@ -208,7 +208,7 @@ class _LoadingWidgetState extends State<LoadingWidget> {
     return Container(
       color: Colors.white.withOpacity(0.1),
       alignment: Alignment.center,
-      child: const CircularProgressIndicator(color: AppTheme.primaryColor),
+      child: const CircularProgressIndicator(color: Colors.blue),
     );
   }
 }

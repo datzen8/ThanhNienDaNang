@@ -47,7 +47,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.zen8labs.myzen8labs"
+        applicationId "com.youthdn.youthdn"
         minSdkVersion 24
         targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
@@ -67,7 +67,7 @@ android {
     productFlavors {
         dev {
             dimension "default"
-            resValue "string", "app_name", "My Zen8labs dev"
+            resValue "string", "app_name", "YouthDN"
             applicationIdSuffix ".dev"
         }
 

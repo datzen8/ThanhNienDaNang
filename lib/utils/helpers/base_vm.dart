@@ -2,7 +2,7 @@ import 'package:rxdart/rxdart.dart';
 import 'disposable.dart';
 import 'activity_tracker.dart';
 
-class BaseVM<Input extends Disposable, Output extends Disposable>
+class  BaseVM<Input extends Disposable, Output extends Disposable>
     implements Disposable {
   Input input;
   Output output;

@@ -14,6 +14,8 @@ class DatePattern {
 
   static const yyMMyyyyHHmm = "dd/MM/yyyy";
   static const mmmddHHmm = "MMM dd, HH:mm";
+  static const mmdd = 'dd/MM';
+  static const HHmmssddMMyy = 'HH:mm:ss dd/MM/yyyy';
 }
 
 //Local store keys
@@ -21,12 +23,23 @@ class LocalStoreKey {
   LocalStoreKey._();
 
   static const credential = "credential";
-  static const user = "user";
+  static const user = "login_response";
+}
+
+class CommonString {
+  CommonString._();
+
+  static const SIGNUP_TITLE = "Đăng kí tài khoản";
+  static const user = "login_response";
 }
 
 class AppEvent {
   static const forceLogout = "logout";
+  static const showAuthDialog = "showAuthDialog";
+  static const setPosistion ="setPosition";
 }
+
+
 
 //App Error
 enum AppExceptionType { other }

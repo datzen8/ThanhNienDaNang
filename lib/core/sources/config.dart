@@ -21,14 +21,14 @@ class Config {
   }
 
   static Config get dev => Config(
-        baseUrl: 'http://myzen8labs.try0.xyz',
+        baseUrl: 'https://intern.try0.xyz/api/v1',
       );
 
   static Config get stg => Config(
-        baseUrl: 'http://myzen8labs.try0.xyz',
+        baseUrl: 'https://intern.try0.xyz/api/v1',
       );
 
   static Config get prod => Config(
-        baseUrl: 'http://myzen8labs.try0.xyz',
+        baseUrl: 'https://intern.try0.xyz/api/v1',
       );
 }
